@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Math Game Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background: #a1c9f1; /* relaxing blue */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #000;
+      margin-bottom: 2rem;
+    }
+
+    .game-selection {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .game-mode {
+      background: #fff;
+      padding: 1rem;
+      border: 3px solid #000;
+      box-shadow: 5px 5px 0 #000;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      width: 200px;
+    }
+
+    .game-mode:hover {
+      transform: scale(1.05);
+    }
+
+    .game-mode img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-bottom: 2px solid #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-mode span {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .game-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brutalist-container {
+      position: relative;
+      width: 250px;
+      font-family: monospace;
+    }
+
+    .brutalist-input {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #000;
+      background-color: #fff;
+      border: 4px solid #000;
+      position: relative;
+      overflow: hidden;
+      border-radius: 0;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 5px 5px 0 #000, 10px 10px 0 #4a90e2;
+    }
+
+    .brutalist-label {
+      position: absolute;
+      left: -3px;
+      top: -35px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #000;
+      padding: 5px 10px;
+      transform: rotate(-1deg);
+      z-index: 1;
+    }
+
+    #scoreDisplay {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <h1> Elderly Rockstars 🎵 🎸</h1>
+
+  <div class="game-selection">
+    <div class="game-mode" onclick="startGame('single')">
+      <img src="https://i.pinimg.com/736x/52/e7/3e/52e73ef62b425cbf13533d585c713cdb.jpg" alt="Stadium Mode" />
+      <span>Single Player</span>
+    </div>
+    <div class="game-mode" onclick="startGame('multi')">
+      <img src="https://i.redd.it/2oxv62gme7u71.png" alt="Sing Off Mode" />
+      <span>Multiplayer</span>
+    </div>
+  </div>
+
+  <div id="gameArea" class="game-area">
+    <h2 id="question">Loading...</h2>
+    <div class="brutalist-container">
+      <input id="answer" placeholder="TYPE HERE" class="brutalist-input smooth-type" type="text" autocomplete="off" />
+      <label class="brutalist-label">Answer Is...</label>
+    </div>
+    <div id="scoreDisplay"></div>
+  </div>
+
+  <script>
+    const gameArea = document.getElementById("gameArea");
+    const question = document.getElementById("question");
+    const input = document.getElementById("answer");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const gameSelection = document.querySelector(".game-selection");
+
+    let correctAnswer = 0;
+    let totalQuestions = 0;
+    let correctCount = 0;
+    let gameTimer;
+
+    function startGame(mode) {
+      if (mode === 'multi') {
+        // Redirect immediately for multiplayer
+        window.location.href = 'multiplayer.html';
+        return;
+      }
+
+      // Singleplayer mode
+      gameSelection.style.display = "none";
+      gameArea.style.display = "flex";
+      scoreDisplay.textContent = "";
+      totalQuestions = 0;
+      correctCount = 0;
+      input.disabled = false;
+      input.value = "";
+      input.focus();
+
+      generateQuestion();
+
+      // Set a 60-second timer to end the game
+      clearTimeout(gameTimer);
+      gameTimer = setTimeout(endGame, 60000);
+    }
+
+    function generateQuestion() {
+      const a = Math.floor(Math.random() * 12 + 1);
+      const b = Math.floor(Math.random() * 12 + 1);
+      correctAnswer = a * b;
+      question.textContent = `${a} × ${b} = ?`;
+      input.value = "";
+      totalQuestions++;
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const userAnswer = parseInt(input.value);
+        if (!isNaN(userAnswer)) {
+          if (userAnswer === correctAnswer) {
+            correctCount++;
+            generateQuestion();
+          } else {
+            alert("Try again!");
+            input.value = "";
+          }
+        }
+      }
+    });
+
+    function endGame() {
+      input.disabled = true;
+      question.textContent = "⏰ Time's up!";
+      scoreDisplay.textContent = `Your score: ${correctCount}`;
+    }
+  </script>
+</body>
+
+</html>

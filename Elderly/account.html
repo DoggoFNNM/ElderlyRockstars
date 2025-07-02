@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Account</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #000;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      --c: #09f;
+      background-color: #000;
+      background-image: radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 235px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 117.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 252px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 252px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 126px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 150px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 150px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 75px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 253px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 253px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 126.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 204px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 204px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 102px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 134px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 134px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 67px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 179px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 179px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 89.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 299px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 299px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 149.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 215px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 215px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 107.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 281px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 281px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 140.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 158px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 158px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 79px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 210px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 210px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 105px, var(--c) 100%, #0000 150%);
+      background-size: 300px 235px;
+      animation: hi 150s linear infinite;
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-image: radial-gradient(ellipse 1.5px 2px at 1.5px 50%,
+          #0000 0,
+          #0000 90%,
+          #000 100%);
+      background-size: 25px 8px;
+      pointer-events: none;
+    }
+
+    @keyframes hi {
+      0% {
+        background-position: 0px 220px;
+      }
+
+      to {
+        background-position: 0px 6800px;
+      }
+    }
+
+    .upload-area {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 150px;
+      gap: 20px;
+    }
+
+    .filechooser {
+      --transition: 350ms;
+      --folder-W: 120px;
+      --folder-H: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 10px;
+      background: linear-gradient(135deg, #6dd5ed, #2193b0);
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      height: calc(var(--folder-H) * 1.7);
+      position: relative;
+    }
+
+    .folder {
+      position: absolute;
+      top: -20px;
+      left: calc(50% - 60px);
+      animation: float 2.5s infinite ease-in-out;
+      transition: transform var(--transition) ease;
+    }
+
+    .folder:hover {
+      transform: scale(1.05);
+    }
+
+    .folder .front-side,
+    .folder .back-side {
+      position: absolute;
+      transition: transform var(--transition);
+      transform-origin: bottom center;
+    }
+
+    .folder .back-side::before,
+    .folder .back-side::after {
+      content: "";
+      display: block;
+      background-color: white;
+      opacity: 0.5;
+      width: var(--folder-W);
+      height: var(--folder-H);
+      position: absolute;
+      transform-origin: bottom center;
+      border-radius: 15px;
+      transition: transform 350ms;
+      z-index: 0;
+    }
+
+    .filechooser:hover .back-side::before {
+      transform: rotateX(-5deg) skewX(5deg);
+    }
+
+    .filechooser:hover .back-side::after {
+      transform: rotateX(-15deg) skewX(12deg);
+    }
+
+    .folder .front-side {
+      z-index: 1;
+    }
+
+    .filechooser:hover .front-side {
+      transform: rotateX(-40deg) skewX(15deg);
+    }
+
+    .folder .tip {
+      background: linear-gradient(135deg, #ff9a56, #ff6f56);
+      width: 80px;
+      height: 20px;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: absolute;
+      top: -10px;
+      z-index: 2;
+    }
+
+    .folder .cover {
+      background: linear-gradient(135deg, #ffe563, #ffc663);
+      width: var(--folder-W);
+      height: var(--folder-H);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    /* Hide default file input */
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Style the label as button */
+    .custom-file-upload {
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #6dd5ed, #2193b0);
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      background: linear-gradient(135deg, #2193b0, #6dd5ed);
+    }
+
+    #preview {
+      width: 250px;
+      height: 250px;
+      object-fit: contain;
+      border: 2px dashed #2193b0;
+      margin-top: 1rem;
+      background: #111;
+      border-radius: 12px;
+    }
+
+    .done-button {
+      margin-top: 1rem;
+      padding: 10px 25px;
+      font-size: 16px;
+      background: #100720;
+      color: #fff;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      box-shadow: 0 0 10px rgba(255, 94, 247, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    .done-button::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+      filter: blur(15px);
+      z-index: -1;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 1rem;
+    }
+
+    .done-button:active {
+      transform: scale(0.9) rotate(3deg);
+      background: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+      transition: 0.5s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="upload-area">
+      <div class="filechooser">
+        <div class="folder">
+          <div class="front-side">
+            <div class="tip"></div>
+            <div class="cover"></div>
+          </div>
+          <div class="back-side cover"></div>
+        </div>
+        <label class="custom-file-upload" for="fileInput">
+          Choose a file 📁
+        </label>
+        <input type="file" id="fileInput" accept="image/*" />
+      </div>
+      <img id="preview" src="https://picsum.photos/250" alt="Profile Preview" />
+      <button class="done-button" id="doneBtn">Done</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Your Firebase config
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDu_YTLMm3PDQgygcvPKSQmanWOTp-KFMk",
+  authDomain: "elderly-2edc7.firebaseapp.com",
+  projectId: "elderly-2edc7",
+  storageBucket: "elderly-2edc7.firebasestorage.app",
+  messagingSenderId: "984744298838",
+  appId: "1:984744298838:web:da763916b3b21e3027eef7",
+  measurementId: "G-DYYMG3044J"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+    const firestore = firebase.firestore();
+
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+    const doneBtn = document.getElementById("doneBtn");
+
+    let selectedFile = null;
+    let uploadedImageUrl = null;
+
+    // Show preview immediately on file select
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        selectedFile = file;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          preview.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select a valid image file.");
+        selectedFile = null;
+        preview.src = "https://picsum.photos/250";
+      }
+    });
+
+    doneBtn.addEventListener("click", async () => {
+      if (!selectedFile) {
+        alert("Please select an image first!");
+        return;
+      }
+
+      try {
+        // Create a unique filename based on timestamp + original filename
+        const fileName = `profile_images/${Date.now()}_${selectedFile.name}`;
+
+        // Upload to Firebase Storage
+        const storageRef = storage.ref(fileName);
+        const snapshot = await storageRef.put(selectedFile);
+
+        // Get the public download URL
+        uploadedImageUrl = await snapshot.ref.getDownloadURL();
+
+        // Save URL to Firestore (assuming collection 'users', document 'profile')
+        await firestore.collection("users").doc("profile").set({
+          profileImageUrl: uploadedImageUrl,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert("Profile image uploaded successfully! Redirecting...");
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 2000);
+
+      } catch (error) {
+        console.error("Upload failed:", error);
+        alert("Failed to upload image. Please try again.");
+      }
+    });
+  </script>
+</body>
+
+</html>

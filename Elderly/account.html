@@ -291,15 +291,15 @@
   <script>
     // Your Firebase config
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDu_YTLMm3PDQgygcvPKSQmanWOTp-KFMk",
-  authDomain: "elderly-2edc7.firebaseapp.com",
-  projectId: "elderly-2edc7",
-  storageBucket: "elderly-2edc7.firebasestorage.app",
-  messagingSenderId: "984744298838",
-  appId: "1:984744298838:web:da763916b3b21e3027eef7",
-  measurementId: "G-DYYMG3044J"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyDu_YTLMm3PDQgygcvPKSQmanWOTp-KFMk",
+      authDomain: "elderly-2edc7.firebaseapp.com",
+      projectId: "elderly-2edc7",
+      storageBucket: "elderly-2edc7.appspot.com",
+      messagingSenderId: "984744298838",
+      appId: "1:984744298838:web:da763916b3b21e3027eef7",
+      measurementId: "G-DYYMG3044J"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -362,8 +362,8 @@ const firebaseConfig = {
         }, 2000);
 
       } catch (error) {
-        console.error("Upload failed:", error);
-        alert("Failed to upload image. Please try again.");
+        console.error("Upload failed", error);
+        alert("Upload failed: " + error.message);
       }
     });
   </script>

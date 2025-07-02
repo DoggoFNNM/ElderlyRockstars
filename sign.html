@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up | Elderly Rockstars</title>
+  <script type="module">
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDu_YTLMm3PDQgygcvPKSQmanWOTp-KFMk",
+      authDomain: "elderly-2edc7.firebaseapp.com",
+      projectId: "elderly-2edc7",
+      storageBucket: "elderly-2edc7.firebasestorage.app",
+      messagingSenderId: "984744298838",
+      appId: "1:984744298838:web:da763916b3b21e3027eef7",
+      measurementId: "G-DYYMG3044J"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let isLogin = false;
+
+    window.toggleLogin = () => {
+      isLogin = !isLogin;
+      document.querySelector('.title').innerText = isLogin ? 'LOGIN' : 'SIGN UP';
+      document.querySelector('.btn').innerText = isLogin ? 'LOGIN' : 'SIGN UP';
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const authForm = document.getElementById('authForm');
+      authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const name = document.getElementById('name').value;
+
+        try {
+          if (isLogin) {
+            await signInWithEmailAndPassword(auth, email, password);
+            alert("Logged in successfully!");
+            window.location.href = 'account.html';  // Redirect after login
+          } else {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(userCredential.user, {displayName: name});
+            alert("Signed up successfully!");
+            window.location.href = 'account.html';  // Redirect after signup
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+    });
+  </script>
+  <style>
+    /* Your existing styles here */
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #1e1e1e;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    .form_area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #EDDCD9;
+      padding: 30px;
+      border: 2px solid #264143;
+      border-radius: 20px;
+      box-shadow: 3px 4px 0px 1px #E99F4C;
+    }
+
+    .title {
+      color: #264143;
+      font-weight: 900;
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+
+    .sub_title {
+      font-weight: 600;
+      margin: 5px 0;
+    }
+
+    .form_group {
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+      margin: 10px;
+    }
+
+    .form_style {
+      outline: none;
+      border: 2px solid #264143;
+      box-shadow: 3px 4px 0px 1px #E99F4C;
+      width: 290px;
+      padding: 12px 10px;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    .form_style:focus,
+    .btn:focus {
+      transform: translateY(4px);
+      box-shadow: 1px 2px 0px 0px #E99F4C;
+    }
+
+    .btn {
+      padding: 15px;
+      margin: 25px 0px;
+      width: 290px;
+      font-size: 15px;
+      background: #DE5499;
+      border-radius: 10px;
+      font-weight: 800;
+      box-shadow: 3px 3px 0px 0px #E99F4C;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: .9;
+    }
+
+    .link {
+      font-weight: 800;
+      color: #264143;
+      padding: 5px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="form_area">
+      <p class="title">SIGN UP</p>
+      <form id="authForm">
+        <div class="form_group">
+          <label class="sub_title" for="name">Name</label>
+          <input placeholder="Enter your full name" class="form_style" type="text" id="name" required />
+        </div>
+        <div class="form_group">
+          <label class="sub_title" for="email">Email</label>
+          <input placeholder="Enter your email" class="form_style" type="email" id="email" required />
+        </div>
+        <div class="form_group">
+          <label class="sub_title" for="password">Password</label>
+          <input placeholder="Enter your password" class="form_style" type="password" id="password" required />
+        </div>
+        <div>
+          <button type="submit" class="btn">SIGN UP</button>
+          <p>Have an Account? <a class="link" href="#" onclick="toggleLogin()">Login Here!</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
